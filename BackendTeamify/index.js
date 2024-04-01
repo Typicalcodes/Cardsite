@@ -13,7 +13,7 @@ const http = require("http");
 
 app.use(
   cors({
-    origin: ["http://localhost:3002"],
+    origin: ["https://cardsite-8yb5.vercel.app"],
     methods: ["GET", "POST", "DELETE"],
     credentials: true,
   })
