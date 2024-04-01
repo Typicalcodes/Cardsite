@@ -176,6 +176,7 @@ const Cards = () => {
   },[errort])
   return (
     <div className="md:w-[60rem] pt-3 md:mx-auto">
+   
       <div
         className={` ${
           !toggle && "p-4"
@@ -369,6 +370,9 @@ const Cards = () => {
             Forward &gt;
           </button>
         </div>
+      </div>
+      <div className="flex items-center justify-center mt-4 mx-auto">
+      {isLoading && <span className="text-green-300 text-lg p-4 font-semibold">....Loading</span>}
       </div>
       <div className="md:grid md:grid-cols-4 md:gap-2">
       {!isLoading &&
