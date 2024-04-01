@@ -25,7 +25,7 @@ export const fetchData = (filter) => {
       console.log("request called", filter);
       const queryString = new URLSearchParams(filter).toString();
       const response = await fetch(
-        `http://localhost:3000/api/users?${queryString}`,
+        `https://cardsite-black.vercel.app/api/users?${queryString}`,
         {
           method: "GET",
           headers: {
@@ -47,7 +47,7 @@ export const fetchteam = (search) => {
     try {
       console.log("request called");
       const response = await fetch(
-        `http://localhost:3000/teamapi/team`,
+        `https://cardsite-black.vercel.app/teamapi/team`,
         {
           method: "GET",
           headers: {

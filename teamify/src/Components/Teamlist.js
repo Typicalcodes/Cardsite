@@ -17,7 +17,7 @@ const Teamlist = () => {
   
   async function fetchMemberData(member) {
     try {
-      const response = await fetch(`http://localhost:3000/teamapi/team/id/${member}`);
+      const response = await fetch(`https://cardsite-black.vercel.app/teamapi/team/id/${member}`);
       const data = await response.json();
       console.log(data)
       return {fname: data[0].first_name,lname: data[0].last_name,domain: data[0].domain};

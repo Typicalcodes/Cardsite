@@ -89,7 +89,7 @@ const Cards = () => {
     const datato = userdata;
     try {
       const response = await fetch(
-        `http://localhost:3000/api/updateuser/${datato.id}`,
+        `https://cardsite-black.vercel.app/api/updateuser/${datato.id}`,
         {
           method: "POST",
           headers: {
@@ -109,7 +109,7 @@ const Cards = () => {
   };
   const createuser = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/createuser`, {
+      const response = await fetch(`https://cardsite-black.vercel.app/api/createuser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,7 +129,7 @@ const Cards = () => {
   const handledelete = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/deleteusers/${id}`,
+        `https://cardsite-black.vercel.app/api/deleteusers/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -152,7 +152,7 @@ const Cards = () => {
     try {
       const sendata= {name: selectedProfile.name, members: selectedProfile.ids}
       const response = await fetch(
-        `http://localhost:3000/teamapi/createteam`,
+        `https://cardsite-black.vercel.app/teamapi/createteam`,
         {
           method: "POST",
           headers: {
