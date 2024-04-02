@@ -13,6 +13,7 @@ import { BsCheck2Square } from "react-icons/bs";
 import { PiSquareLight } from "react-icons/pi";
 import { BsPeopleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
 
 const Cards = () => {
   const dispatch = useDispatch();
@@ -103,13 +104,14 @@ const Cards = () => {
       if (datares) {
         dispatch(toogledialog());
       }
+      toast.success('Profile Updated Created.',{position: "bottom-center"})
     } catch (error) {
       console.log({ error: error.message });
     }
   };
   const createuser = async () => {
     try {
-      const response = await fetch(`https://cardsite-black.vercel.app/api/createuser`, {
+      const response = await fetch(`https://localhost:3000/api/createuser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -118,6 +120,7 @@ const Cards = () => {
       });
       const datares = await response.json();
       dispatch(fetchData({ pageno, ...filters }));
+      toast.success('Profile Succesfully Created.',{position: "bottom-center"})
       if (datares) {
         dispatch(toogledialog());
       }
@@ -139,48 +142,59 @@ const Cards = () => {
       );
       const datares = await response.json();
       dispatch(fetchData({ pageno, ...filters }));
+      toast.success('Profile Deleted Successfulyy',{position: "bottom-center"})
+      setSelectedProfile({
+        ...selectedProfile,
+        name: null,
+        domains: [],
+        ids: [],
+      });
     } catch (error) {
       console.log({ error: error.message });
     }
   };
 
   //team creation
-  const createTeam = async ()=>{
-  const uniqueSet = new Set(selectedProfile.domains);
+  const createTeam = async () => {
+    const uniqueSet = new Set(selectedProfile.domains);
 
-  if(uniqueSet.size === selectedProfile.domains.length){
-    try {
-      const sendata= {name: selectedProfile.name, members: selectedProfile.ids}
-      const response = await fetch(
-        `https://cardsite-black.vercel.app/teamapi/createteam`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(sendata),
-        }
-      );
-      const datares = await response.json();
-      setTogleteam(prevState=>!prevState) ;
-      dispatch(fetchData({ pageno, ...filters }));
-    } catch (error) {
-      console.log({ error: error.message });
+    if (uniqueSet.size === selectedProfile.domains.length) {
+      try {
+        const sendata = {
+          name: selectedProfile.name,
+          members: selectedProfile.ids,
+        };
+        const response = await fetch(
+          `https://cardsite-black.vercel.app/teamapi/createteam`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(sendata),
+          }
+        );
+        const datares = await response.json();
+        setTogleteam((prevState) => !prevState);
+        dispatch(fetchData({ pageno, ...filters }));
+        toast.success('Team Succesfully Created.',{position: "bottom-center"})
+      } catch (error) {
+        console.log({ error: error.message });
+      }
+    } else {
+      setErrort((prev) => !prev);
     }
-  }else{
-    setErrort((prev)=>!prev)
-  }
-  }
-  useEffect(()=>{
-    console.log(" am a error".errort)
-  },[errort])
+  };
+  useEffect(() => {
+    console.log(" am a error".errort);
+  }, [errort]);
   return (
     <div className="md:w-[60rem] pt-3 md:mx-auto">
-   
+      <Toaster/>
       <div
         className={` ${
           !toggle && "p-4"
-        } z-[1000] fixed flex items-center bg-white  md:top-1/2 left-0 top-[32rem] border-t-2 border-r-2 border-b-2 border-green-950   rounded-r-md pl-1 py-2 pr-2`}
+        } z-[1000] fixed flex items-center bg-white  md:top-1/2 left-0 bottom-1/3 border-t-2 border-r-2 border-b-2 border-green-950   rounded-r-md pl-1 py-2 pr-2`}
       >
         <div
           className={`${
@@ -206,17 +220,18 @@ const Cards = () => {
               const t = !toggle;
               setToggle(t);
             }}
-          ><div className="flex flex-col items-center">
-
-<BsFillPersonPlusFill className="text-green-500 " size="30" />
-            <span>Add</span>
+          >
+            <div className="flex flex-col items-center">
+              <BsFillPersonPlusFill className="text-green-500 " size="30" />
+              <span>Add</span>
             </div>
-          
           </div>
-          <Link to="/team"><div className="flex flex-col items-center">
-            <BsPeopleFill className="text-green-500 " size="30" />
-            <span>Teams</span>
-          </div></Link>
+          <Link to="/team">
+            <div className="flex flex-col items-center">
+              <BsPeopleFill className="text-green-500 " size="30" />
+              <span>Teams</span>
+            </div>
+          </Link>
         </div>
         <div
           className="font-bold md:py-6 py-4 md:text-3xl text-xl w-auto h-auto"
@@ -250,7 +265,10 @@ const Cards = () => {
               placeholder="Search First Name"
               className="px-4 py-2 w-full bg-green-100 text-green-500 placeholder-green-500 border border-green-500 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
             />
-            <button disabled className="absolute inset-y-0 right-0 px-4 bg-green-400  text-white font-semibold rounded-r-md focus:outline-none focus:ring-2 ">
+            <button
+              disabled
+              className="absolute inset-y-0 right-0 px-4 bg-green-400  text-white font-semibold rounded-r-md focus:outline-none focus:ring-2 "
+            >
               <svg
                 className="w-full h-6"
                 fill="none"
@@ -372,99 +390,107 @@ const Cards = () => {
         </div>
       </div>
       <div className="flex items-center justify-center mt-4 mx-auto">
-      {isLoading && <span className="text-green-300 text-lg p-4 font-semibold">....Loading</span>}
+        {isLoading && (
+          <span className="text-green-300 text-lg p-4 font-semibold">
+            ....Loading
+          </span>
+        )}
       </div>
       <div className="md:grid md:grid-cols-4 md:gap-2">
-      {!isLoading &&
-        data &&
-        data.data.map((item, index) => {
-          return (
-            <>
-              <div
-                className={`grid relative ${
-                  cardopen ? "-z-50" : "z-50"
-                } grid-cols-2 md:grid-cols-1 md:h-[24rem] md:grid-rows-2 m-2 w-full  md:border-0 md:bg-slate-100 border border-green-400 rounded-sm overflow-hidden`}
-              >
-                <div className="p-2 border-4 md:border-0 text-wrap pr-1 md:order-2 flex flex-col justify-between ">
-                  <div className="text-wrap whitespace-normal">
-                    <p className="text-lg md:text-sm font-bold">
-                      {item.first_name} {item.last_name}
-                    </p>
-                    <p className="font-semibold md:text-sm font-serif text-green-600">
-                      {item.gender}
-                    </p>
-                    <p className="md:text-sm">Domain : {item.domain}</p>
-                    <p className="text-[12px] whitespace-normal max-w-xs">
-                      {item.email}
-                    </p>
-                    <p className="md:text-sm">Available: {item.available ? "Yes" : "No"}</p>
-                  </div>
-                  <div className="flex space-x-1 items-center">
-                    <div
-                      onClick={() => {
-                        handleedit(
-                          item.id,
-                          item.first_name,
-                          item.last_name,
-                          item.available,
-                          item.gender,
-                          item.email,
-                          item.domain,
-                          "update"
-                        );
-                      }}
-                      className="right-0"
-                    >
-                      <TbUserEdit className="text-green-500 text-2xl " />
+        {!isLoading &&
+          data &&
+          data.data.map((item, index) => {
+            return (
+              <>
+                <div
+                  className={`grid relative ${
+                    cardopen ? "-z-50" : "z-50"
+                  } grid-cols-2 md:grid-cols-1 md:h-[24rem] md:grid-rows-2 m-2 w-full  md:border-0 md:bg-slate-100 border border-green-400 rounded-sm overflow-hidden`}
+                >
+                  <div className="p-2 border-4 md:border-0 text-wrap pr-1 md:order-2 flex flex-col justify-between ">
+                    <div className="text-wrap whitespace-normal">
+                      <p className="text-lg md:text-sm font-bold">
+                        {item.first_name} {item.last_name}
+                      </p>
+                      <p className="font-semibold md:text-sm font-serif text-green-600">
+                        {item.gender}
+                      </p>
+                      <p className="md:text-sm">Domain : {item.domain}</p>
+                      <p className="text-[12px] whitespace-normal max-w-xs">
+                        {item.email}
+                      </p>
+                      <p className="md:text-sm">
+                        Available: {item.available ? "Yes" : "No"}
+                      </p>
                     </div>
-                    <div
-                      onClick={() => {
-                        handledelete(item.id);
-                      }}
-                    >
-                      <RiDeleteBin6Line className="text-green-500 text-2xl "  />
-                    </div>
-                    {item.available === true && (
+                    <div className="flex space-x-1 items-center">
                       <div
                         onClick={() => {
-                          if ((selectedProfile.ids).includes(item.id)) {
-                            setSelectedProfile((prevState) => ({
-                              ...prevState,
-                              ids: prevState.ids.filter((id) => id !== item.id),
-                              domains: prevState.domains.filter((domain)=>domain !== item.domain)
-                            }));
-                          } else {
-                            setSelectedProfile((prevState) => ({
-                              ...prevState,
-                              ids: [...prevState.ids, item.id],
-                              domains: [...prevState.domains, item.domain]
-                            }));
-                          }
+                          handleedit(
+                            item.id,
+                            item.first_name,
+                            item.last_name,
+                            item.available,
+                            item.gender,
+                            item.email,
+                            item.domain,
+                            "update"
+                          );
+                        }}
+                        className="right-0"
+                      >
+                        <TbUserEdit className="text-green-500 text-2xl " />
+                      </div>
+                      <div
+                        onClick={() => {
+                          handledelete(item.id);
                         }}
                       >
-                        {(selectedProfile.ids).includes(item.id) ? (
-                          <BsCheck2Square
-                          className="text-green-500 text-2xl " 
-                          />
-                        ) : (
-                          <PiSquareLight className="text-green-500 text-2xl "  />
-                        )}
+                        <RiDeleteBin6Line className="text-green-500 text-2xl " />
                       </div>
-                    )}
+                      {item.available === true && (
+                        <div
+                          onClick={() => {
+                            if (selectedProfile.ids.includes(item.id)) {
+                              setSelectedProfile((prevState) => ({
+                                ...prevState,
+                                ids: prevState.ids.filter(
+                                  (id) => id !== item.id
+                                ),
+                                domains: prevState.domains.filter(
+                                  (domain) => domain !== item.domain
+                                ),
+                              }));
+                            } else {
+                              setSelectedProfile((prevState) => ({
+                                ...prevState,
+                                ids: [...prevState.ids, item.id],
+                                domains: [...prevState.domains, item.domain],
+                              }));
+                            }
+                          }}
+                        >
+                          {selectedProfile.ids.includes(item.id) ? (
+                            <BsCheck2Square className="text-green-500 text-2xl " />
+                          ) : (
+                            <PiSquareLight className="text-green-500 text-2xl " />
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <img
+                      className=" w-full h-full md:order-1  bg-green-300"
+                      alt="pofile"
+                      src={item.avatar}
+                    />
                   </div>
                 </div>
-                <div>
-                  <img
-                    className=" w-full h-full md:order-1  bg-green-300"
-                    alt="pofile"
-                    src={item.avatar}
-                  />
-                </div>
-              </div>
-            </>
-          );
-        })}
-        </div>
+              </>
+            );
+          })}
+      </div>
       {isLoading}
       {cardopen && (
         <div className="fixed inset-0  backdrop-blur-sm bg-opacity-70 flex items-center justify-center z-50">
@@ -580,7 +606,10 @@ const Cards = () => {
             <div className="">
               <MdClose
                 onClick={() => {
-                 setTogleteam(prevState=>!prevState) ;
+                  setTogleteam((prevState) => !prevState);
+                  if(errort){
+                    setErrort((prev)=>!prev)
+                  }
                 }}
               />
             </div>
@@ -592,42 +621,70 @@ const Cards = () => {
             <input
               type="text"
               onChange={(e) => {
-                setSelectedProfile({ ...selectedProfile, name: e.target.value });
+                setSelectedProfile({
+                  ...selectedProfile,
+                  name: e.target.value,
+                });
               }}
               className="px-4 py-2 rounded-md border border-green-500 focus:outline-none focus:border-green-700 focus:ring-green-700"
             />
             <button
               onClick={() => {
-                createTeam()
+                createTeam();
               }}
               className="px-4 py-2 my-2 bg-green-800 hover:bg-green-900 text-white font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-green-800 focus:ring-opacity-50"
             >
               Create Team
             </button>
-            <span className="text-green-600">Selected Items : {selectedProfile.ids.length}</span>
-             {errort && <span className="text-red-500">Select Unique Domains</span>}
+            <span className="text-green-600">
+              Selected Items : {selectedProfile.ids.length}
+            </span>
+            {errort && (
+              <span className="text-red-500">Select Unique Domains</span>
+            )}
+            <span
+              onClick={() => {
+                setTogleteam((prevState) => !prevState);
+                setSelectedProfile({
+                  ...selectedProfile,
+                  name: null,
+                  domains: [],
+                  ids: [],
+                });
+
+              }}
+              className="text-red-900 underline-offset-1 underline cursor-pointer "
+            >
+              Unselect All
+            </span>
           </div>
         </div>
       )}
       {selectedProfile.ids.length > 1 && (
         <div
-        onClick={()=>{setTogleteam(prevState=>!prevState); 
-          const uniqueSet = new Set(selectedProfile.domains);
-            console.log("size of set",uniqueSet.size,"size of array", selectedProfile.domains.length)
-          if(uniqueSet.size === !selectedProfile.domains.length){
-            setErrort(prev=>!prev)
-          }
-        }}
+          onClick={() => {
+            setTogleteam((prevState) => !prevState);
+            const uniqueSet = new Set(selectedProfile.domains);
+            console.log(
+              "size of set",
+              uniqueSet.size,
+              "size of array",
+              selectedProfile.domains.length
+            );
+            if (uniqueSet.size === !selectedProfile.domains.length) {
+              setErrort((prev) => !prev);
+            }
+          }}
           className={` ${
             !toggle && "p-4"
-          } z-[1000] fixed flex items-center bg-white   right-0 md:top-1/2 md:right-10 top-[38rem] md:border-2 md:rounded-md md:items-center md:justify-center border-t-2 border-l-2 border-b-2 border-green-950   rounded-r-md pl-1 py-2 pr-4`}
+          } z-[55] fixed flex items-center bg-white   right-0 md:top-1/2 md:right-10 bottom-1/3 md:border-2 md:rounded-md md:items-center md:justify-center border-t-2 border-l-2 border-b-2 border-green-950   rounded-r-md pl-1 py-2 pr-4`}
         >
-          <div>
-            <div>
+        
+            <div className="flex items-center">
               <AiOutlineUsergroupAdd className="text-green-500 text-4xl " />
+              <span className="md:visible md:w-auto md:h-auto invisible w-0 h-0">Add <br/> Team</span>
             </div>
-          </div>
-        </div>
+                  </div>
       )}
     </div>
   );

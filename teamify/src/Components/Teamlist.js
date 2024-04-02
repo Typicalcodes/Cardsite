@@ -49,6 +49,11 @@ const Teamlist = () => {
   return (
     <div className='mx-2 py-2 md:w-[60rem] pt-3 md:mx-auto'>
     <label className='text-xl font-bold text-black my-4 py-4 md:my-4 md:py-8'>Team list</label>
+
+    <div className="flex items-center justify-center mt-4 mx-auto">
+    {teamMembers<1 && <p className="text-green-300 text-lg p-4 font-semibold">....Loading</p>}
+      </div>
+   
     <div className='space-y-2 md:space-y-0 md:grid md:grid-cols-2 md:gap-1 md:h-full' >
     {teamMembers.length>1 && teamlist.map((team, index) => (
       <div className='border-2 border-green-500 rounded-md p-2' key={index}>
