@@ -91,17 +91,6 @@ router.get("/users", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-router.get("/logout", (req, res) => {
-  // Delete session token
-  req.session.destroy((err) => {
-    if (err) {
-      console.log("Error destroying session:", err);
-    } else {
-      console.log("Session token deleted successfully");
-      res.json({ deleted: "yeas" });
-    }
-    // Redirect or respond as desired
-  });
-});
+
 
 module.exports = router;
