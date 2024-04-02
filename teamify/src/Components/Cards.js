@@ -389,12 +389,8 @@ const Cards = () => {
           </button>
         </div>
       </div>
-      <div className="flex items-center justify-center mt-4 mx-auto">
-        {isLoading && (
-          <span className="text-green-300 text-lg p-4 font-semibold">
-            ....Loading
-          </span>
-        )}
+             <div className="flex items-center justify-center mt-4 mx-auto">
+      {isLoading && <span className="text-green-300 text-lg p-4 font-semibold">....Loading</span>}
       </div>
       <div className="md:grid md:grid-cols-4 md:gap-2">
         {!isLoading &&
