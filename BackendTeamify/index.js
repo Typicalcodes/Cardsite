@@ -13,7 +13,7 @@ const http = require("http");
 
 app.use(
   cors({
-    origin: ["https://cardsite-black.vercel.app"],
+    origin: ["https://cardsite-8yb5.vercel.app"],
     methods: ["GET", "POST", "DELETE"],
     credentials: true,
   })
