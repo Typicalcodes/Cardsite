@@ -104,7 +104,7 @@ const Cards = () => {
       if (datares) {
         dispatch(toogledialog());
       }
-      toast.success('Profile Updated Created.',{position: "bottom-center"})
+      toast.success('Profile Updated Successfully.',{position: "bottom-center"})
     } catch (error) {
       console.log({ error: error.message });
     }
@@ -142,7 +142,7 @@ const Cards = () => {
       );
       const datares = await response.json();
       dispatch(fetchData({ pageno, ...filters }));
-      toast.success('Profile Deleted Successfulyy',{position: "bottom-center"})
+      toast.success('Profile Deleted Successfully',{position: "bottom-center"})
       setSelectedProfile({
         ...selectedProfile,
         name: null,
@@ -177,7 +177,7 @@ const Cards = () => {
         const datares = await response.json();
         setTogleteam((prevState) => !prevState);
         dispatch(fetchData({ pageno, ...filters }));
-        toast.success('Team Succesfully Created.',{position: "bottom-center"})
+        toast.success('Team Successfully Created.',{position: "bottom-center"})
       } catch (error) {
         console.log({ error: error.message });
       }
