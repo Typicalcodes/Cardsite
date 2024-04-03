@@ -51,25 +51,25 @@ const Teamlist = () => {
     <label className='text-xl font-bold text-black my-4 py-4 md:my-4 md:py-8'>Team list</label>
 
     <div className="flex items-center justify-center mt-4 mx-auto">
-    {teamMembers<1 && <p className="text-green-300 text-lg p-4 font-semibold">....Loading</p>}
-      </div>
-   
-    <div className='space-y-2 md:space-y-0 md:grid md:grid-cols-2 md:gap-1 md:h-full' >
-    {teamMembers.length>1 && teamlist.map((team, index) => (
+      {teamMembers.length>1 && teamlist.filter((item,index)=>{return teamMembers[index]}).map((team, index) => (
       <div className='border-2 border-green-500 rounded-md p-2' key={index}>
         <h3 className='text-green-800 font-bold text-lg '>{team.name}</h3>
         <div className='grid grid-cols-3 space-x-1 space-y-1 md:space-y-0 items-start justify-start'>
 
-          {teamMembers[index].members.map((member, subIndex) => (
-            <div className='' key={subIndex}>
-              <div className='text-lg whitespace-normal text-wrap font-semibold font-sans text-green-500'>
-              {member.domain ? member.domain : "Loading..."}
+          {teamMembers[index].members.filter((item)=>{return item.domain}).map((member, subIndex) => (
+            (<div className='' key={subIndex}>
+              {member.domain && 
+              
+              <><div className='text-lg whitespace-normal text-wrap font-semibold font-sans text-green-500'>
+              {member.domain && member.domain}
               </div>
               <div>
-              {member.fname && member.lname ? `${member.fname} ${member.lname}` : "Loading..."}
-              </div>
-            </div>
-          ))}
+              {member.fname && member.lname && `${member.fname} ${member.lname}`}
+              </div></>
+          }
+             
+            </div>)
+))}
         </div>
       </div>
     ))}
