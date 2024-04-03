@@ -46,12 +46,16 @@ const Teamlist = () => {
   }, [teamlist]);
 
 
-  return (
+ return (
     <div className='mx-2 py-2 md:w-[60rem] pt-3 md:mx-auto'>
     <label className='text-xl font-bold text-black my-4 py-4 md:my-4 md:py-8'>Team list</label>
 
     <div className="flex items-center justify-center mt-4 mx-auto">
-      {teamMembers.length>1 && teamlist.filter((item,index)=>{return teamMembers[index]}).map((team, index) => (
+    {teamMembers<1 && <p className="text-green-300 text-lg p-4 font-semibold">....Loading</p>}
+      </div>
+   
+    <div className='space-y-2 md:space-y-0 md:grid md:grid-cols-2 md:gap-1 md:h-full' >
+    {teamMembers.length>1 && teamlist.filter((item,index)=>{return teamMembers[index]}).map((team, index) => (
       <div className='border-2 border-green-500 rounded-md p-2' key={index}>
         <h3 className='text-green-800 font-bold text-lg '>{team.name}</h3>
         <div className='grid grid-cols-3 space-x-1 space-y-1 md:space-y-0 items-start justify-start'>
