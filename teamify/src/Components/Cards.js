@@ -111,7 +111,7 @@ const Cards = () => {
   };
   const createuser = async () => {
     try {
-      const response = await fetch(`https://localhost:3000/api/createuser`, {
+      const response = await fetch(`https://cardsite-black.vercel.app/api/createuser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -222,14 +222,14 @@ const Cards = () => {
             }}
           >
             <div className="flex flex-col items-center">
-              <BsFillPersonPlusFill className="text-green-500 " size="30" />
-              <span>Add</span>
+              <BsFillPersonPlusFill className="text-green-500  " size="30" />
+              <span className="font-semibold">Add</span>
             </div>
           </div>
           <Link to="/team">
             <div className="flex flex-col items-center">
               <BsPeopleFill className="text-green-500 " size="30" />
-              <span>Teams</span>
+              <span className="font-semibold">Teams</span>
             </div>
           </Link>
         </div>
@@ -401,9 +401,9 @@ const Cards = () => {
                 <div
                   className={`grid relative ${
                     cardopen ? "-z-50" : "z-50"
-                  } grid-cols-2 md:grid-cols-1 md:h-[24rem] md:grid-rows-2 m-2 w-full  md:border-0 md:bg-slate-100 border border-green-400 rounded-sm overflow-hidden`}
+                  } grid-cols-2 md:grid-cols-1 md:h-[24rem] md:grid-rows-2 p-2 w-full  md:border-0 md:bg-slate-100  rounded-sm overflow-hidden`}
                 >
-                  <div className="p-2 border-4 md:border-0 text-wrap pr-1 md:order-2 flex flex-col justify-between ">
+                  <div className="p-2 border-4 md:border-0 text-wrap pr-2   md:order-2 flex flex-col justify-between ">
                     <div className="text-wrap whitespace-normal">
                       <p className="text-lg md:text-sm font-bold">
                         {item.first_name} {item.last_name}
@@ -412,7 +412,7 @@ const Cards = () => {
                         {item.gender}
                       </p>
                       <p className="md:text-sm">Domain : {item.domain}</p>
-                      <p className="text-[12px] whitespace-normal max-w-xs">
+                      <p className=" md:text-sm whitespace-normal text-wrap break-words ">
                         {item.email}
                       </p>
                       <p className="md:text-sm">
@@ -678,7 +678,7 @@ const Cards = () => {
         
             <div className="flex items-center">
               <AiOutlineUsergroupAdd className="text-green-500 text-4xl " />
-              <span className="md:visible md:w-auto md:h-auto invisible w-0 h-0">Add <br/> Team</span>
+              <span className="md:visible md:w-auto md:h-auto  font-semibold invisible w-0 h-0">Add <br/> Team</span>
             </div>
                   </div>
       )}

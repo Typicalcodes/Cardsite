@@ -22,7 +22,7 @@ export const fetchData = (filter) => {
   return async (dispatch) => {
     dispatch(fetchDataRequest());
     try {
-      console.log("request called", filter);
+      //console.log("request called", filter);
       const queryString = new URLSearchParams(filter).toString();
       const response = await fetch(
         `https://cardsite-black.vercel.app/api/users?${queryString}`,
@@ -35,7 +35,7 @@ export const fetchData = (filter) => {
       );
       const data = await response.json();
       const tosend = {data:data,pageno: filter.pageno}
-      console.log("reacherd herer");
+      //console.log("reacherd herer");
       dispatch(fetchDataSuccess(tosend));
     } catch (error) {
       dispatch(fetchDataFailure(error.message));
@@ -45,7 +45,7 @@ export const fetchData = (filter) => {
 export const fetchteam = (search) => {
   return async (dispatch) => {
     try {
-      console.log("request called");
+      //console.log("request called");
       const response = await fetch(
         `https://cardsite-black.vercel.app/teamapi/team`,
         {
@@ -56,7 +56,7 @@ export const fetchteam = (search) => {
         }
       );
       const data = await response.json();
-      console.log("reacherd herer for update");
+      //console.log("reacherd herer for update");
       dispatch(fetchTeamData(data))
     } catch (error) {
       console.log({error: error.message})

@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchteam } from "../redux/actioncreators";
+import { Link } from 'react-router-dom';
+
 const Teamlist = () => {   
   const dispatch = useDispatch();
   const teamlist = useSelector((state) => state.teamData);
   const [teamMembers, setTeamMembers] = useState([]);
+  
 
   useEffect(() => {
     dispatch(fetchteam())
-    console.log(teamlist)
+
   }, [dispatch])
 
   useEffect(()=>{
@@ -19,12 +22,12 @@ const Teamlist = () => {
     try {
       const response = await fetch(`https://cardsite-black.vercel.app/teamapi/team/id/${member}`);
       const data = await response.json();
-      console.log(data)
-      return {fname: data[0].first_name,lname: data[0].last_name,domain: data[0].domain};
+
+      return {fname: data[0].first_name,lname: data[0].last_name,domain: data[0].domain,id: data[0].id};
 
       
     } catch (error) {
-      console.log(error.message);
+
       return ''; // Return an empty string or handle the error as needed
     }
   }
@@ -36,7 +39,7 @@ const Teamlist = () => {
         return { teamId: team._id, members };
       });
       const resolvedTeams = await Promise.all(promises);
-      console.log(resolvedTeams)
+
       setTeamMembers(resolvedTeams);
     };
 
@@ -55,21 +58,26 @@ const Teamlist = () => {
       </div>
    
     <div className='space-y-2 md:space-y-0 md:grid md:grid-cols-2 md:gap-1 md:h-full' >
-    {teamMembers.length>1 && teamlist.map((team, index) => (
+    {teamMembers.length>1 && teamlist.filter((item,index)=>{return teamMembers[index]}).map((team, index) => (
       <div className='border-2 border-green-500 rounded-md p-2' key={index}>
         <h3 className='text-green-800 font-bold text-lg '>{team.name}</h3>
         <div className='grid grid-cols-3 space-x-1 space-y-1 md:space-y-0 items-start justify-start'>
 
-          {teamMembers[index].members.map((member, subIndex) => (
-            <div className='' key={subIndex}>
-              <div className='text-lg whitespace-normal text-wrap font-semibold font-sans text-green-500'>
-              {member.domain ? member.domain : "Loading..."}
+          {teamMembers[index].members.filter((item)=>{return item.domain}).map((member, subIndex) => (
+            (<div className='' key={subIndex}>
+              {member.domain && 
+              
+              <><div className='text-lg whitespace-normal text-wrap font-semibold font-sans text-green-500'>
+              {member.domain && member.domain}
               </div>
-              <div>
-              {member.fname && member.lname ? `${member.fname} ${member.lname}` : "Loading..."}
+             <Link to={{ pathname: "/profile", search: `?id=${member.id}` }}> <div className='underline text-blue-600 underline-offset-2'>
+              {member.fname && member.lname && `${member.fname} ${member.lname}`}
               </div>
-            </div>
-          ))}
+              </Link></>
+          }
+             
+            </div>)
+))}
         </div>
       </div>
     ))}

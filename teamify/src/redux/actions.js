@@ -7,6 +7,7 @@ export const PROFILE_CREATE = 'PROFILE_CREATE';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const FETCH_TEAM_DATA_REQUEST = "FETCH_TEAM_DATA_REQUEST";
 
+
 export const fetchDataRequest = () => ({
   type: FETCH_DATA_REQUEST,
 });
